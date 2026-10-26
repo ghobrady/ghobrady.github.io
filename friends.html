@@ -9,7 +9,8 @@ permalink: /friends/
 </header>
 <div class="prose">
   <ul class="friends-list">
-    {% for friend in site.data.friends %}
+    {% assign sorted_friends = site.data.friends | sort: 'name' %}
+    {% for friend in sorted_friends %}
     <li><a href="{{ friend.url | escape }}">{{ friend.name | escape }}</a></li>
     {% endfor %}
   </ul>
