@@ -1,0 +1,12 @@
+<div class="bookshelf-poster" aria-hidden="true">
+  {% assign poster_parts = 'gutter-left,left,center,right,gutter-right' | split: ',' %}
+  {% for part in poster_parts %}
+  <span class="bookshelf-poster__part bookshelf-poster__part--{{ part }}">
+    <picture>
+      <source media="(max-width: 399px)" srcset="{{ site.data.bookshelf_poster.narrow.src1x | relative_url }}?v={{ site.data.bookshelf_poster.narrow.version1x }} 1x, {{ site.data.bookshelf_poster.narrow.src | relative_url }}?v={{ site.data.bookshelf_poster.narrow.version }} 2x">
+      <source media="(max-width: 760px)" srcset="{{ site.data.bookshelf_poster.mobile.src1x | relative_url }}?v={{ site.data.bookshelf_poster.mobile.version1x }} 1x, {{ site.data.bookshelf_poster.mobile.src | relative_url }}?v={{ site.data.bookshelf_poster.mobile.version }} 2x">
+      <img src="{{ site.data.bookshelf_poster.desktop.src1x | relative_url }}?v={{ site.data.bookshelf_poster.desktop.version1x }}" srcset="{{ site.data.bookshelf_poster.desktop.src1x | relative_url }}?v={{ site.data.bookshelf_poster.desktop.version1x }} 1x, {{ site.data.bookshelf_poster.desktop.src | relative_url }}?v={{ site.data.bookshelf_poster.desktop.version }} 2x" width="819" height="1044" alt="" decoding="async" fetchpriority="high">
+    </picture>
+  </span>
+  {% endfor %}
+</div>

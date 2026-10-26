@@ -7,19 +7,20 @@
     <meta name="theme-color" content="#e6e8e8">
     <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
-    <script>
-      document.documentElement.classList.add("bookshelf-loading");
-      // Decode the scan while the renderer's JavaScript is downloading/parsing.
-      const bindingScan = new Image();
-      bindingScan.src = "{{ '/assets/materials/binding-grain.webp' | relative_url }}";
-      window.bookshelfGrain = bindingScan.decode().then(() => bindingScan);
-      window.bookshelfGrain.catch(() => {});
-    </script>
-    <link rel="preload" as="image" href="{{ '/assets/materials/binding-grain.webp' | relative_url }}" fetchpriority="high">
+    {% assign desktop_poster = site.data.bookshelf_poster.desktop %}
+    {% assign mobile_poster = site.data.bookshelf_poster.mobile %}
+    {% assign narrow_poster = site.data.bookshelf_poster.narrow %}
     <link rel="preload" as="image" href="{{ '/assets/materials/cool-fine-plaster.webp' | relative_url }}">
     <link rel="modulepreload" href="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}">
-    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=direct-first-paint-1">
-    <script src="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}" type="module" onerror="document.documentElement.classList.remove('bookshelf-loading')"></script>
+    {% for dependency in site.data.runtime.preloads %}<link rel="modulepreload" href="{{ dependency | relative_url }}">{% endfor %}
+    <style>
+      :root { --poster-center-width: {{ desktop_poster.centerEm }}em; --poster-native-width: {{ desktop_poster.widthEm }}em; --poster-edge-size: {{ desktop_poster.edgeSize }}%; --poster-edge-position: {{ desktop_poster.edgePosition }}%; --poster-gutter-size: {{ desktop_poster.gutterSize }}%; }
+      @media (max-width: 760px) { :root { --poster-center-width: {{ mobile_poster.centerEm }}em; --poster-native-width: {{ mobile_poster.widthEm }}em; --poster-edge-size: {{ mobile_poster.edgeSize }}%; --poster-edge-position: {{ mobile_poster.edgePosition }}%; --poster-gutter-size: {{ mobile_poster.gutterSize }}%; } }
+      @media (max-width: 399px) { :root { --poster-center-width: {{ narrow_poster.centerEm }}em; --poster-native-width: {{ narrow_poster.widthEm }}em; --poster-edge-size: {{ narrow_poster.edgeSize }}%; --poster-edge-position: {{ narrow_poster.edgePosition }}%; --poster-gutter-size: {{ narrow_poster.gutterSize }}%; } }
+    </style>
+    <noscript><style>.scene--poster .bookshelf-poster,.scene--poster .book-model { visibility: visible !important; }</style></noscript>
+    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=poster-1">
+    <script src="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}" type="module" onerror="document.querySelector('.scene').dataset.posterReady='true'"></script>
   </head>
   <body>
     {{ content }}

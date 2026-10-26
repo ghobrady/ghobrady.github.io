@@ -16,6 +16,7 @@ exclude:
   - tests
   - tools
   - output
+  - assets/previews/README.md
   - assets/materials/README.md
   - assets/models/README.md
   - assets/vendor/README.md

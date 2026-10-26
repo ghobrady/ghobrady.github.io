@@ -1,0 +1,51 @@
+{
+  "desktop": {
+    "widthEm": 45.5,
+    "heightEm": 58,
+    "centerEm": 32,
+    "pixelsPerEm": 36,
+    "src1x": "/assets/previews/bookshelf-desktop-1x.webp",
+    "version1x": "e0a961c69403",
+    "pixelWidth": 1638,
+    "pixelHeight": 2088,
+    "src": "/assets/previews/bookshelf-desktop.webp",
+    "version": "81927b8c6531",
+    "centerSize": 142.1875,
+    "edgeSize": 791.3043478260869,
+    "edgePosition": 2.5157232704402515,
+    "gutterSize": 4550.0
+  },
+  "mobile": {
+    "widthEm": 42.888888888888886,
+    "heightEm": 58,
+    "centerEm": 32,
+    "pixelsPerEm": 27,
+    "src1x": "/assets/previews/bookshelf-mobile-1x.webp",
+    "version1x": "e32c657ad7ec",
+    "pixelWidth": 1158,
+    "pixelHeight": 1566,
+    "src": "/assets/previews/bookshelf-mobile.webp",
+    "version": "1b75e4978676",
+    "centerSize": 134.02777777777777,
+    "edgeSize": 965.0000000000002,
+    "edgePosition": 2.601156069364162,
+    "gutterSize": 4288.888888888889
+  },
+  "narrow": {
+    "widthEm": 38.799479166666664,
+    "heightEm": 58,
+    "centerEm": 30,
+    "pixelsPerEm": 18,
+    "src1x": "/assets/previews/bookshelf-narrow-1x.webp",
+    "version1x": "41f5e4c57e3b",
+    "pixelWidth": 698,
+    "pixelHeight": 1044,
+    "src": "/assets/previews/bookshelf-narrow.webp",
+    "version": "a9ffb38791c1",
+    "centerSize": 129.3315972222222,
+    "edgeSize": 1141.2485637686711,
+    "edgePosition": 2.8248795380144927,
+    "gutterSize": 3879.9479166666665
+  },
+  "sourceFingerprint": "e4828341ba63e3e726a30400ba9045c4c6d00c423ae237b552d23704e50ba25f"
+}

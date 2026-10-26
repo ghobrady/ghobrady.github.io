@@ -32,9 +32,33 @@ button { font: inherit; }
   background: url("../materials/cool-fine-plaster.webp") repeat 0 0 / 512px 512px;
   opacity: .65;
 }
-/* Keep the CSS fallback from flashing before the first shaded frame is ready. */
-.bookshelf-loading .room,
-.bookshelf-loading .bookshelf-canvas { visibility: hidden; }
+/* Initial imagery is independent of WebGL. The central strip never stretches;
+   only the empty shelf ends adapt to the responsive board width. */
+.bookshelf-poster {
+  position: absolute;
+  top: -1em;
+  left: 50%;
+  width: calc(min(43.5em, 92vw) + 2em);
+  height: calc(100% + 2em);
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 1em minmax(0, 1fr) var(--poster-center-width, 32em) minmax(0, 1fr) 1em;
+  pointer-events: none;
+}
+.bookshelf-poster__part { position: relative; overflow: hidden; }
+.bookshelf-poster__part img {
+  position: absolute; top: 0; height: 100%; max-width: none;
+  width: var(--poster-edge-size);
+}
+.bookshelf-poster__part--left img { left: var(--poster-edge-position); transform: translateX(calc(-1 * var(--poster-edge-position))); }
+.bookshelf-poster__part--right img { left: calc(100% - var(--poster-edge-position)); transform: translateX(calc(var(--poster-edge-position) - 100%)); }
+.bookshelf-poster__part--center img { left: 50%; transform: translateX(-50%); width: var(--poster-native-width); }
+.bookshelf-poster__part--gutter-left img { left: 0; width: var(--poster-gutter-size); }
+.bookshelf-poster__part--gutter-right img { left: 100%; transform: translateX(-100%); width: var(--poster-gutter-size); }
+.scene--poster:not([data-poster-ready="true"]) .bookshelf-poster,
+.scene--poster:not([data-poster-ready="true"]) .book-model { visibility: hidden; }
+.scene[data-renderer="webgl"] .bookshelf-poster,
+.scene:not(.scene--poster) .bookshelf-poster { display: none; }
 .room {
   /* Use the same compact composition on every screen, fitted to desktop height. */
   font-size: min(18px, 2.25vw, 1.6svh);
@@ -229,17 +253,17 @@ button.book { display: block; appearance: none; cursor: pointer; }
 .book--movable:focus-visible .book-spine { outline: 2px solid #384c5b88; outline-offset: .3em; }
 /* In the 3D view, HTML supplies live text and accessible hit regions only. */
 .bookshelf-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
-.scene--3d .room { position: relative; z-index: 1; }
-.scene--3d .shelf-board { background: transparent; box-shadow: none; }
-.scene--3d .shelf-model { visibility: hidden; }
-.scene--3d .shelf-board::before,
-.scene--3d .shelf-board::after,
-.scene--3d .book::before,
-.scene--3d .book::after,
-.scene--3d .book-spine::before,
-.scene--3d .book-spine::after { display: none; }
-.scene--3d .book-model { filter: none; }
-.scene--3d .book-spine { background: transparent; box-shadow: none; }
+:is(.scene--3d, .scene--poster) .room { position: relative; z-index: 1; }
+:is(.scene--3d, .scene--poster) .shelf-board { background: transparent; box-shadow: none; }
+:is(.scene--3d, .scene--poster) .shelf-model { display: none; }
+:is(.scene--3d, .scene--poster) .shelf-board::before,
+:is(.scene--3d, .scene--poster) .shelf-board::after,
+:is(.scene--3d, .scene--poster) .book::before,
+:is(.scene--3d, .scene--poster) .book::after,
+:is(.scene--3d, .scene--poster) .book-spine::before,
+:is(.scene--3d, .scene--poster) .book-spine::after { display: none; }
+:is(.scene--3d, .scene--poster) .book-model { filter: none; }
+:is(.scene--3d, .scene--poster) .book-spine { background: transparent; box-shadow: none; }
 .bookplate {
   width: min(30rem, calc(100vw - 2rem));
   max-width: none;
@@ -344,6 +368,7 @@ button.book { display: block; appearance: none; cursor: pointer; }
 @media (max-width: 760px) {
   .room { font-size: clamp(9px, 2.25vw, 14px); }
   .shelf { width: 92vw; }
+  .bookshelf-poster { width: calc(92vw + 2em); }
   .bookplate__paper { min-height: 22rem; }
 }
 @media (prefers-reduced-motion: reduce) {

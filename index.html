@@ -4,10 +4,11 @@ title: Index
 description: The personal bookshelf of Brady Gho — a quiet home for writing, projects, and curiosities.
 ---
 
-<main class="scene" aria-labelledby="page-title">
+<main class="scene scene--poster" aria-busy="true" aria-labelledby="page-title">
   <h1 id="page-title" class="visually-hidden">Brady Gho</h1>
 
   <div class="room" aria-label="Brady Gho's bookshelf">
+    {% include bookshelf-poster.html %}
     {% for shelf in site.data.books.shelves %}
       <section class="shelf shelf--{{ shelf.id }}" aria-label="{{ shelf.label }}">
         <div class="book-row" data-shelf="{{ shelf.id }}">

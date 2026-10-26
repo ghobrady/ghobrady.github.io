@@ -30,8 +30,8 @@ export async function createBookshelfPresentation(sceneElement) {
   const canvas = document.createElement('canvas');
   canvas.className = 'bookshelf-canvas';
   canvas.setAttribute('aria-hidden', 'true');
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power', preserveDrawingBuffer: new URLSearchParams(location.search).has('export-poster') });
+  renderer.setPixelRatio(new URLSearchParams(location.search).has('export-poster') ? 2 : Math.min(devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.shadowMap.enabled = true;
@@ -203,6 +203,23 @@ export async function createBookshelfPresentation(sceneElement) {
     draw();
     sceneElement.classList.add('scene--3d');
     sceneElement.dataset.renderer = 'webgl';
+    if (new URLSearchParams(location.search).has('export-poster')) {
+      const room = sceneElement.querySelector('.room');
+      const bounds = room.getBoundingClientRect();
+      const sceneBounds = sceneElement.getBoundingClientRect();
+      const em = parseFloat(getComputedStyle(room).fontSize);
+      const width = layout.shelves[0].width + 2*em;
+      const height = bounds.height + 2*em;
+      const ratio = renderer.getPixelRatio();
+      const poster = document.createElement('canvas');
+      poster.width = Math.round(width*ratio);
+      poster.height = Math.round(height*ratio);
+      poster.getContext('2d').drawImage(canvas,
+        (layout.width-width)/2*ratio,(bounds.top-sceneBounds.top-em)*ratio,width*ratio,height*ratio,
+        0,0,poster.width,poster.height);
+      sceneElement.dataset.posterExport = poster.toDataURL('image/png');
+      sceneElement.dataset.posterMetadata = JSON.stringify({widthEm:width/em,heightEm:height/em,centerEm:innerWidth < 400 ? 30 : 32,pixelsPerEm:ratio*em});
+    }
   }
 
   function tick(time) {

@@ -2,17 +2,8 @@ import * as THREE from '../vendor/three.module.js';
 import { RoundedBoxGeometry } from '../vendor/RoundedBoxGeometry.js';
 import { hingeAngleForShelf } from './book-motion.mjs?v=pages-2';
 
-export const MODEL = Object.freeze({
-  cameraDistance: 6500,
-  shelfDepth: 180,
-  bookDepth: 96,
-  frontInset: 18,
-  coverThickness: 2.2,
-  cornerRadius: 4,
-  pageInset: 3,
-  pageSideGap: 1.2,
-  bindingGap: .75,
-});
+import { MODEL } from './bookshelf-config.mjs';
+export { MODEL };
 
 function roundedRectangle(width, height, radius) {
   const r = Math.min(radius, width / 2, height / 2);
