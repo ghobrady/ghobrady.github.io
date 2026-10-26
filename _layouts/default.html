@@ -6,13 +6,20 @@
     <meta name="description" content="{{ page.description | default: site.description | escape }}">
     <meta name="theme-color" content="#e6e8e8">
     <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
-    <script>document.documentElement.classList.add("bookshelf-loading");</script>
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
-    <link rel="preload" as="image" href="{{ '/assets/materials/binding-grain.webp' | relative_url }}" crossorigin="anonymous" fetchpriority="high">
-    <link rel="modulepreload" href="{{ '/assets/vendor/three.module.js' | relative_url }}">
-    <link rel="modulepreload" href="{{ '/assets/js/bookshelf-scene.mjs' | relative_url }}?v=first-paint-1">
+    <script>
+      document.documentElement.classList.add("bookshelf-loading");
+      // Decode the scan while the renderer's JavaScript is downloading/parsing.
+      const bindingScan = new Image();
+      bindingScan.src = "{{ '/assets/materials/binding-grain.webp' | relative_url }}";
+      window.bookshelfGrain = bindingScan.decode().then(() => bindingScan);
+      window.bookshelfGrain.catch(() => {});
+    </script>
+    <link rel="preload" as="image" href="{{ '/assets/materials/binding-grain.webp' | relative_url }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ '/assets/materials/cool-fine-plaster.webp' | relative_url }}">
+    <link rel="modulepreload" href="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}">
     <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=direct-first-paint-1">
-    <script src="{{ '/assets/js/site.js' | relative_url }}?v=first-paint-1" type="module" onerror="document.documentElement.classList.remove('bookshelf-loading')"></script>
+    <script src="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}" type="module" onerror="document.documentElement.classList.remove('bookshelf-loading')"></script>
   </head>
   <body>
     {{ content }}

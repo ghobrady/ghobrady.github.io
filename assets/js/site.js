@@ -1,6 +1,8 @@
 import { CAMERA_DISTANCE, projectionMatrix } from "./book-geometry.mjs?v=natural-6";
 import { createBookVisual } from "./book-renderer.mjs?v=pages-2";
 
+performance.mark("bookshelf:module");
+
 const books = [...document.querySelectorAll(".book--movable")];
 const rows = [...document.querySelectorAll(".book-row")];
 const dialog = document.querySelector(".bookplate");
@@ -13,11 +15,10 @@ const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)");
 let presentation;
 
 try {
-  const [{ createBookshelfPresentation }] = await Promise.all([
-    import("./bookshelf-scene.mjs?v=first-paint-1"),
-    document.fonts.ready,
-  ]);
+  const { createBookshelfPresentation } = await import("./bookshelf-scene.mjs?v=first-paint-1");
+  performance.mark("bookshelf:dependencies");
   presentation = await createBookshelfPresentation(scene);
+  performance.mark("bookshelf:rendered");
 } catch (error) {
   // Keep the semantic HTML and existing projected view usable without WebGL.
   console.warn("Using the lightweight bookshelf fallback.", error.message);
@@ -89,9 +90,17 @@ dialog.addEventListener("close", () => {
   returnFocus = null;
 });
 
-// Both the 3D and fallback paths have drawn and controls are bound before reveal.
-requestAnimationFrame(() => {
+// The fully shaded frame is submitted and controls are bound before reveal.
+// Reveal synchronously so the browser can paint it at the next opportunity.
+{
+  performance.mark("bookshelf:ready");
+  if (new URLSearchParams(location.search).has("profile")) {
+    scene.dataset.startup = JSON.stringify({
+      marks: performance.getEntriesByType("mark").filter(entry => entry.name.startsWith("bookshelf:")).map(({name,startTime}) => ({name,ms: +startTime.toFixed(1)})),
+      resources: performance.getEntriesByType("resource").map(({name,startTime,duration,transferSize,decodedBodySize}) => ({name: new URL(name).pathname, start: +startTime.toFixed(1), ms: +duration.toFixed(1), transferSize, decodedBodySize})),
+    });
+  }
   scene.dataset.ready = "true";
   scene.setAttribute("aria-busy", "false");
   document.documentElement.classList.remove("bookshelf-loading");
-});
+}

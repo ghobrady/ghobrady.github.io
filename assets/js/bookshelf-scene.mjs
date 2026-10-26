@@ -26,6 +26,7 @@ function filteredShadowChunk() {
 }
 
 export async function createBookshelfPresentation(sceneElement) {
+  performance.mark('bookshelf:scene-start');
   const canvas = document.createElement('canvas');
   canvas.className = 'bookshelf-canvas';
   canvas.setAttribute('aria-hidden', 'true');
@@ -37,10 +38,11 @@ export async function createBookshelfPresentation(sceneElement) {
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.shadowMap.autoUpdate = false;
   renderer.setClearColor(0x000000, 0);
+  performance.mark('bookshelf:renderer');
+  const grainReady = window.bookshelfGrain
+    ? window.bookshelfGrain.then(image => new THREE.Texture(image))
+    : new THREE.TextureLoader().loadAsync(new URL('../materials/binding-grain.webp', import.meta.url).href);
   let grain;
-  try { grain = await new THREE.TextureLoader().loadAsync(new URL('../materials/binding-grain.webp', import.meta.url).href); }
-  catch (error) { renderer.dispose(); throw error; }
-  grain.colorSpace = THREE.NoColorSpace;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const elements = [...sceneElement.querySelectorAll('.book')];
   const shadowChunk = filteredShadowChunk();
@@ -51,6 +53,8 @@ export async function createBookshelfPresentation(sceneElement) {
   let frame;
   let lastTime;
   let lastLayoutSignature;
+  let preparedWorld;
+  let preparedSignature;
 
   function readLayout() {
     const rect = sceneElement.getBoundingClientRect();
@@ -108,17 +112,17 @@ export async function createBookshelfPresentation(sceneElement) {
     return material;
   }
 
-  function disposeWorld() {
-    if (!world) return;
+  function disposeWorld(target = world) {
+    if (!target) return;
     const geometries = new Set();
     const materials = new Set();
-    world.scene.traverse(object => {
+    target.scene.traverse(object => {
       if (object.geometry) geometries.add(object.geometry);
       for (const material of (Array.isArray(object.material) ? object.material : object.material ? [object.material] : [])) materials.add(material);
     });
     geometries.forEach(geometry => geometry.dispose());
     materials.forEach(material => { if (material.userData.ownedMap) material.map.dispose(); if (material.userData.ownedBump) material.bumpMap.dispose(); material.dispose(); });
-    world.key.shadow.map?.dispose();
+    target.key.shadow.map?.dispose();
   }
 
   function pageMaterial() {
@@ -170,9 +174,21 @@ export async function createBookshelfPresentation(sceneElement) {
     if (signature === lastLayoutSignature) return;
     lastLayoutSignature = signature;
     layout = nextLayout;
-    const frontMaterials = new Map(layout.books.map(book => [book.id, surfaceMaterial(book)]));
+    const frontMaterials = new Map(layout.books.map(book => [book.id,surfaceMaterial(book)]));
+    performance.mark('bookshelf:materials');
     disposeWorld();
-    world = createBookshelfScene(layout, { frontMaterials, paperMaterial: pageMaterial(), shadowOnlyWall: true });
+    if (preparedWorld && preparedSignature === signature) {
+      world = preparedWorld;
+      for (const [id,book] of world.books) {
+        const spine = book.getObjectByName('rounded-spine');
+        new Set(spine.material).forEach(material => material.dispose());
+        spine.material = [frontMaterials.get(id),frontMaterials.get(id)];
+      }
+    } else {
+      if (preparedWorld) disposeWorld(preparedWorld);
+      world = createBookshelfScene(layout, { frontMaterials, paperMaterial: pageMaterial(), shadowOnlyWall: true });
+    }
+    preparedWorld = undefined;
     world.scene.traverse(object => {
       if (!object.isMesh) return;
       for (const material of (Array.isArray(object.material) ? object.material : [object.material])) {
@@ -182,6 +198,7 @@ export async function createBookshelfPresentation(sceneElement) {
         material.customProgramCacheKey = () => 'bookshelf-pcf-grid-2';
       }
     });
+    performance.mark('bookshelf:geometry');
     renderer.setSize(layout.width, layout.height, false);
     draw();
     sceneElement.classList.add('scene--3d');
@@ -218,7 +235,16 @@ export async function createBookshelfPresentation(sceneElement) {
   canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); cancelAnimationFrame(frame); frame = undefined; lastTime = undefined; });
   canvas.addEventListener('webglcontextrestored', () => { lastLayoutSignature = undefined; rebuild(); });
   sceneElement.prepend(canvas);
-  try { rebuild(); }
-  catch (error) { disposeWorld(); renderer.dispose(); canvas.remove(); throw error; }
+  try {
+    // Geometry preparation overlaps the image's asynchronous decode.
+    const initialLayout = readLayout();
+    preparedSignature = JSON.stringify(initialLayout);
+    preparedWorld = createBookshelfScene(initialLayout, { paperMaterial: pageMaterial(), shadowOnlyWall: true });
+    grain = await grainReady;
+    grain.colorSpace = THREE.NoColorSpace;
+    performance.mark('bookshelf:grain');
+    rebuild();
+  }
+  catch (error) { disposeWorld(); if (preparedWorld) disposeWorld(preparedWorld); renderer.dispose(); canvas.remove(); throw error; }
   return { rebuild, setActive, reset: () => elements.forEach(el => setActive(el,false)) };
 }

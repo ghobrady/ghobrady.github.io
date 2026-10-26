@@ -25,6 +25,10 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: '22'
+      - name: Install pinned browser build tools
+        run: npm ci
+      - name: Bundle browser runtime
+        run: npm run build
       - name: Check geometry and motion
         run: node --test tests/*.test.mjs
       - name: Set up Ruby
