@@ -132,3 +132,13 @@ html { min-width: 320px; background: #faf8f3; }
 @media (prefers-reduced-motion: reduce) {
   .article-return { transition: none; }
 }
+
+.prose .friends-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(24px, 6vw, 80px);
+  row-gap: .55em;
+  max-width: 42rem;
+  margin-top: 0;
+}
+.friends-list li { margin: 0; }

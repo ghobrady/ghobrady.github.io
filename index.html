@@ -25,18 +25,14 @@ description: The personal bookshelf of Brady Gho — a quiet home for writing, p
                 </span>
               </div>
             {% else %}
-              {% assign book_tag = 'button' %}
+              {% assign book_tag = 'span' %}
               {% if book.url %}{% assign book_tag = 'a' %}{% endif %}
               <{{ book_tag }}
                 class="book book--movable book--{{ book.id }}"
-                {% if book.url %}href="{{ book.url | relative_url }}"{% else %}type="button" aria-haspopup="dialog"{% endif %}
+                {% if book.url %}href="{% if book.url contains '://' %}{{ book.url | escape }}{% else %}{{ book.url | relative_url }}{% endif %}"{% endif %}
                 style="{{ book_style | strip }}"
                 data-book="{{ book.id }}"
-                data-title="{{ book.title | escape }}"
-                data-kicker="{{ book.kicker | escape }}"
-                data-copy="{{ book.copy | escape }}"
-                data-accent="{{ book.cover }}"
-                aria-label="Open {{ book.title }}"
+                aria-label="{% if book.url %}Open {% endif %}{{ book.title }}"
               >
                 <span class="book-model" aria-hidden="true">
                   <span class="book-spine">
@@ -62,16 +58,4 @@ description: The personal bookshelf of Brady Gho — a quiet home for writing, p
     {% endfor %}
   </div>
 
-  <p class="visually-hidden" aria-live="polite" id="shelf-status"></p>
 </main>
-
-<dialog class="bookplate" aria-labelledby="bookplate-title">
-  <div class="bookplate__paper">
-    <button class="bookplate__close" type="button" aria-label="Close book">close</button>
-    <div class="bookplate__mark" aria-hidden="true"></div>
-    <p class="bookplate__kicker"></p>
-    <h2 id="bookplate-title"></h2>
-    <p class="bookplate__copy"></p>
-    <p class="bookplate__folio" aria-hidden="true">BG · <span></span></p>
-  </div>
-</dialog>

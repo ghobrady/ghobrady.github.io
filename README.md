@@ -14,7 +14,7 @@ Open `http://127.0.0.1:4000`.
 
 For the optimized browser bundle, run `npm ci && npm run build` before starting Jekyll. Re-run `npm run build` after editing JavaScript. Without the generated bundle, local Jekyll previews use the source modules. GitHub Actions always builds the optimized bundle before publishing.
 
-The books tilt gently on hover. About and Writing link to dedicated pages; the remaining books open focused bookplate panels. Desktop uses the same compact shelf and book proportions as mobile, centered and scaled to fit the available height.
+The books tilt gently on hover and link directly to their destinations. Friends lists personal websites; Projects and Mediashelf have under-construction placeholders. Ringworld and Clocktower link to their external sites. Desktop uses the same compact shelf and book proportions as mobile, centered and scaled to fit the available height.
 
 ## About and writing
 
@@ -54,8 +54,8 @@ For a local root-path preview, run `bundle exec jekyll serve --livereload`. Gene
 
 ## Startup performance
 
-The first view uses transparent previews exported from the same 3D scene, with live HTML lettering and controls. The small startup controller aligns the lettering and shows the complete preview once the images are ready. Only after a paint opportunity does it request Three.js and the source binding scan. The live renderer replaces the preview directly when its first frame is ready, without a fade. If WebGL fails, the preview and bookplate controls remain usable.
+The first view uses transparent previews exported from the same 3D scene, with live HTML lettering and controls. The small startup controller aligns the lettering and shows the complete preview once the images are ready. Only after a paint opportunity does it request Three.js and the source binding scan. The live renderer replaces the preview directly when its first frame is ready, without a fade. If WebGL fails, the preview and native navigation links remain usable.
 
-Three image variants cover desktop, mobile and narrow phones. Fixed central strips preserve book proportions while empty shelf ends adapt to the current width. The existing wall, real 3D materials, geometry and shadow settings remain in use. The initial JavaScript graph has a 16 KB build budget; the current entry is about 4 KB uncompressed.
+Three image variants cover desktop, mobile and narrow phones. Fixed central strips preserve book proportions while empty shelf ends adapt to the current width. The existing wall, real 3D materials, geometry and shadow settings remain in use. The initial JavaScript graph has a 16 KB build budget; the initial entry stays below that limit.
 
 See `assets/previews/README.md` for preview regeneration. The build checks the preview source fingerprint so changed visual inputs cannot silently ship with an outdated initial image. Appending `?poster-only` freezes the initial view for QA. `?profile` records separate `bookshelf:poster-ready` and `bookshelf:webgl-ready` timing markers in `.scene`'s `data-startup`. These measure readiness, not guaranteed screen-paint time; network and device performance still apply. Measurements stay in the browser, and no persistent material cache is used.

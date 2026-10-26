@@ -4,12 +4,8 @@ performance.mark('bookshelf:module');
 const scene = document.querySelector('.scene');
 const books = [...scene.querySelectorAll('.book--movable')];
 const rows = [...scene.querySelectorAll('.book-row')];
-const dialog = document.querySelector('.bookplate');
-const closeButton = dialog.querySelector('.bookplate__close');
-const status = document.querySelector('#shelf-status');
 const hoverCapable = matchMedia('(hover: hover) and (pointer: fine)');
 const parameters = new URLSearchParams(location.search);
-let returnFocus;
 let presentation = {rebuild: () => alignPosterLabels(scene),setActive() {},reset() {}};
 alignPosterLabels(scene);
 
@@ -21,33 +17,11 @@ function profile() {
   });
 }
 
-function announce(message) {
-  status.textContent = '';
-  requestAnimationFrame(() => { status.textContent = message; });
-}
-function openBook(book) {
-  returnFocus = book;
-  dialog.style.setProperty('--panel-accent',book.dataset.accent);
-  dialog.querySelector('.bookplate__kicker').textContent = book.dataset.kicker;
-  dialog.querySelector('#bookplate-title').textContent = book.dataset.title;
-  dialog.querySelector('.bookplate__copy').textContent = book.dataset.copy;
-  dialog.querySelector('.bookplate__folio span').textContent = book.dataset.title;
-  presentation.reset();
-  dialog.showModal();
-  announce(`${book.dataset.title} opened.`);
-}
 function syncHinge(book) {
-  presentation.setActive(book,!dialog.open && ((hoverCapable.matches && book.matches(':hover')) || book.matches(':focus-visible')));
+  presentation.setActive(book,(hoverCapable.matches && book.matches(':hover')) || book.matches(':focus-visible'));
 }
 books.forEach(book => {
-  if (book.tagName === 'BUTTON') book.addEventListener('click',() => openBook(book));
   for (const event of ['pointerenter','pointerleave','focus','blur']) book.addEventListener(event,() => requestAnimationFrame(() => syncHinge(book)));
-});
-closeButton.addEventListener('click',() => dialog.close());
-dialog.addEventListener('click',event => { if (event.target === dialog) dialog.close(); });
-dialog.addEventListener('close',() => {
-  returnFocus?.focus({preventScroll: true});
-  returnFocus = undefined;
 });
 scene.dataset.controlsReady = 'true';
 

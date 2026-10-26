@@ -1,0 +1,16 @@
+---
+layout: page
+title: my friends
+description: My friends and their websites.
+permalink: /friends/
+---
+<header class="page-heading">
+  <h1>my friends</h1>
+</header>
+<div class="prose">
+  <ul class="friends-list">
+    {% for friend in site.data.friends %}
+    <li><a href="{{ friend.url | escape }}">{{ friend.name | escape }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

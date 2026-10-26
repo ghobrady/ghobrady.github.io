@@ -8,7 +8,7 @@ The initial view selects the viewport and display-density variant through `<pict
 sharing the same URL. The books and typography keep their size and placement;
 transparent gutters stay fixed and only the empty shelf ends stretch. The wall
 texture stays in CSS. No fade is used. If WebGL cannot load, this view remains
-available with the small controller's navigation and bookplate controls.
+available with native navigation links.
 
 ## Regeneration
 
