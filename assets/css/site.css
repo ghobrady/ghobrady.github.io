@@ -32,6 +32,11 @@ button { font: inherit; }
   background: url("../materials/cool-fine-plaster.webp") repeat 0 0 / 512px 512px;
   opacity: .65;
 }
+/* Keep the CSS fallback from flashing before the first shaded frame is ready. */
+.room,
+.bookshelf-canvas { transition: opacity 160ms ease-out; }
+.bookshelf-loading .room,
+.bookshelf-loading .bookshelf-canvas { opacity: 0; visibility: hidden; }
 .room {
   /* Use the same compact composition on every screen, fitted to desktop height. */
   font-size: min(18px, 2.25vw, 1.6svh);

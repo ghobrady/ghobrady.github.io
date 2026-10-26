@@ -6,13 +6,18 @@ const rows = [...document.querySelectorAll(".book-row")];
 const dialog = document.querySelector(".bookplate");
 const closeButton = dialog.querySelector(".bookplate__close");
 const status = document.querySelector("#shelf-status");
+const scene = document.querySelector(".scene");
+scene.setAttribute("aria-busy", "true");
 let returnFocus = null;
 const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)");
 let presentation;
 
 try {
-  const { createBookshelfPresentation } = await import("./bookshelf-scene.mjs?v=pages-2");
-  presentation = await createBookshelfPresentation(document.querySelector(".scene"));
+  const [{ createBookshelfPresentation }] = await Promise.all([
+    import("./bookshelf-scene.mjs?v=first-paint-1"),
+    document.fonts.ready,
+  ]);
+  presentation = await createBookshelfPresentation(scene);
 } catch (error) {
   // Keep the semantic HTML and existing projected view usable without WebGL.
   console.warn("Using the lightweight bookshelf fallback.", error.message);
@@ -82,4 +87,11 @@ dialog.addEventListener("click", (event) => {
 dialog.addEventListener("close", () => {
   if (returnFocus) returnFocus.focus({ preventScroll: true });
   returnFocus = null;
+});
+
+// Both the 3D and fallback paths have drawn and controls are bound before reveal.
+requestAnimationFrame(() => {
+  scene.dataset.ready = "true";
+  scene.setAttribute("aria-busy", "false");
+  document.documentElement.classList.remove("bookshelf-loading");
 });
