@@ -1,0 +1,20 @@
+---
+layout: content
+---
+<main class="page-shell article-shell" id="main-content">
+  <div class="article-return-slot">
+    <div class="article-return" data-article-return>
+      <a class="back-link" href="{{ '/writing/' | relative_url }}">← Back to all writing</a>
+    </div>
+  </div>
+  <article>
+    <header class="article-heading">
+      <h1>{{ page.title | escape }}</h1>
+      {% assign words = content | strip_html | number_of_words %}
+      {% assign minutes = words | plus: 199 | divided_by: 200 | at_least: 1 %}
+      <p class="article-meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time> · {{ minutes }} minute read</p>
+    </header>
+    <div class="prose article-copy">{{ content }}</div>
+  </article>
+</main>
+<script src="{{ '/assets/js/article-navigation.mjs' | relative_url }}?v=2" type="module"></script>

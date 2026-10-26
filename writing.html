@@ -1,0 +1,29 @@
+---
+layout: page
+title: Writing
+description: Essays and notes by Brady Gho.
+permalink: /writing/
+---
+<header class="page-heading writing-heading">
+  <h1>Writing</h1>
+</header>
+{% if site.posts.size > 0 %}
+  <ol class="post-list">
+    {% for post in site.posts %}
+    <li>
+      <a class="post-entry" href="{{ post.url | relative_url }}">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+        <div class="post-entry__text">
+          <h2>{{ post.title | escape }}</h2>
+          <p>{{ post.description | default: post.excerpt | strip_html | strip | escape }}</p>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+{% else %}
+<section class="writing-empty" aria-label="Writing updates">
+  <p>Nothing here just yet.</p>
+  <p>Essays, notes, and observations will find their way here.</p>
+</section>
+{% endif %}

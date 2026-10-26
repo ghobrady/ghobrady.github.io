@@ -1,0 +1,134 @@
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { min-width: 320px; background: #faf8f3; }
+.content-page {
+  --page-ink: #142238;
+  --body-ink: #60636c;
+  --accent: #ad4e36;
+  --rule: #d9d7d2;
+  color: var(--page-ink);
+  background: #faf8f3;
+  margin: 0;
+  min-height: 100svh;
+  font-family: Baskerville, "Times New Roman", "Iowan Old Style", Georgia, serif;
+  isolation: isolate;
+  position: relative;
+}
+.content-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("../materials/wall-grain.svg") repeat;
+  opacity: .18;
+  mix-blend-mode: multiply;
+}
+.page-shell {
+  width: min(1120px, calc(100% - 96px));
+  margin-inline: auto;
+  padding-block: clamp(40px, 6.5vw, 88px) 96px;
+}
+.content-page a { color: var(--accent); text-underline-offset: .22em; }
+.content-page a:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+.back-link { display: inline-block; font-size: 21px; line-height: 1.5; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.page-heading { margin: 40px 0 48px; }
+.page-heading h1, .article-heading h1 {
+  margin: 0;
+  color: var(--page-ink);
+  font-size: clamp(56px, 6.2vw, 88px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+.about-layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+.prose { color: var(--body-ink); font-size: 23px; line-height: 1.5; overflow-wrap: anywhere; }
+.prose p { margin: 0 0 1.35em; }
+.prose p:last-child { margin-bottom: 0; }
+.prose ul, .prose ol { padding-left: 1.25em; margin-block: 1.5em; }
+.prose li { padding-left: .2em; margin-block: .25em; }
+.prose li::marker { color: var(--page-ink); }
+.prose h2 { color: var(--page-ink); font-size: 1.5em; font-weight: 400; letter-spacing: -.02em; margin: 1.4em 0 .5em; line-height: 1.2; }
+.prose h3 { color: var(--page-ink); font-size: 1.2em; font-weight: 400; }
+.prose a { text-decoration-thickness: 1px; }
+.prose img { max-width: 100%; height: auto; }
+.prose blockquote { border-left: 2px solid var(--rule); margin-inline: 0; padding-left: 1em; }
+.prose pre { overflow-x: auto; padding: 1em; background: #eeece6; font-size: .75em; }
+.prose code { font-size: .8em; }
+.prose pre code { font-size: inherit; }
+.about-portrait { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: #d2d1ce; }
+.writing-heading { margin-bottom: 64px; }
+.writing-heading h1 { font-size: 56px; }
+.post-list { list-style: none; padding: 0; margin: 0; }
+.post-list li + li { border-top: 1px solid var(--rule); }
+.content-page .post-entry { display: grid; grid-template-columns: 160px minmax(0, 1fr); column-gap: 28px; padding-block: 28px 30px; text-decoration: none; }
+.post-list li:first-child .post-entry { padding-top: 0; }
+.post-entry time { padding-top: 6px; font-size: 17px; line-height: 1.5; letter-spacing: .02em; white-space: nowrap; }
+.post-entry h2 { margin: 0 0 8px; color: var(--page-ink); font-size: 29px; line-height: 1.2; font-weight: 400; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.post-entry p { margin: 0; color: var(--body-ink); font-size: 20px; line-height: 1.4; }
+.post-entry:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.writing-empty { padding-block: 24px 48px; border-top: 1px solid var(--rule); }
+.writing-empty p { margin: 0; color: var(--body-ink); font-size: 22px; line-height: 1.6; }
+.writing-empty p:first-child { margin-bottom: 8px; color: var(--page-ink); font-size: 30px; }
+.article-shell { max-width: 760px; }
+.article-return-slot {
+  position: sticky;
+  z-index: 10;
+  top: 14px;
+  min-height: 32px;
+}
+.article-return {
+  position: relative;
+  isolation: isolate;
+  transform: translateY(0);
+  transition: transform 240ms ease;
+}
+.article-return::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -14px -2px -20px;
+  background: linear-gradient(#faf8f3 80%, #faf8f300);
+  pointer-events: none;
+}
+.article-return[data-hidden="true"] { transform: translateY(calc(-100% - 48px)); pointer-events: none; }
+.article-heading { margin-block: 48px 36px; border-bottom: 1px solid var(--rule); padding-bottom: 32px; }
+.article-meta { margin: 20px 0 0; color: var(--body-ink); font-size: 20px; line-height: 1.6; }
+.article-heading h1 { font-size: 56px; }
+.article-copy { font-size: 21px; }
+.article-copy > p:first-child { font-size: 1.12em; }
+.article-copy li > p { margin-bottom: .5em; }
+.article-copy sup { font-size: .7em; line-height: 0; }
+.article-copy [id] { scroll-margin-top: 88px; }
+.article-footnotes { border-top: 1px solid var(--rule); margin-top: 48px; padding-top: 16px; font-size: .85em; }
+.article-footnotes ol { margin-block: 0; }
+.article-footnotes [role="doc-backlink"] { text-decoration: none; }
+@media (max-width: 800px) {
+  .page-shell { width: calc(100% - 48px); padding-bottom: 64px; }
+  .about-layout { gap: 32px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .prose { font-size: 20px; }
+  .article-copy { font-size: 19px; }
+  .content-page .post-entry { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; }
+  .post-entry time { font-size: 15px; }
+  .post-entry h2 { font-size: 25px; }
+  .post-entry p { font-size: 18px; }
+}
+@media (max-width: 600px) {
+  .page-shell { width: calc(100% - 40px); padding-top: 32px; }
+  .back-link { font-size: 18px; }
+  .page-heading { margin-top: 32px; margin-bottom: 32px; }
+  .about-layout { display: flex; flex-direction: column; gap: 32px; }
+  .about-portrait { max-width: 340px; }
+  .writing-heading { margin-bottom: 40px; }
+  .content-page .post-entry { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .post-entry time { grid-column: 1; padding: 0; }
+  .post-entry__text { grid-column: 1; }
+  .writing-empty p { font-size: 20px; }
+  .writing-empty p:first-child { font-size: 27px; }
+  .article-heading { margin-top: 36px; }
+  .article-meta { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .article-return { transition: none; }
+}

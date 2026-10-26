@@ -13,6 +13,7 @@ shelves:
         height: "27em"
         gap_after: "1.1em"
       - id: about
+        url: /about/
         title: About
         kicker: A note from the desk
         copy: A small introduction belongs here—just enough context before the rest of the shelf does the talking.
@@ -35,6 +36,7 @@ shelves:
         dot: "#354938"
         texture_position: "30%"
       - id: writing
+        url: /writing/
         title: Writing
         kicker: Notes in the margin
         copy: Essays, fragments, and observations—filed loosely, read slowly, and revised whenever they ask for it.

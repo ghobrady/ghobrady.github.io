@@ -14,7 +14,19 @@ Open `http://127.0.0.1:4000`.
 
 For the optimized browser bundle, run `npm ci && npm run build` before starting Jekyll. Re-run `npm run build` after editing JavaScript. Without the generated bundle, local Jekyll previews use the source modules. GitHub Actions always builds the optimized bundle before publishing.
 
-The books tilt gently on hover and open into focused bookplate panels. Desktop uses the same compact shelf and book proportions as mobile, centered and scaled to fit the available height.
+The books tilt gently on hover. About and Writing link to dedicated pages; the remaining books open focused bookplate panels. Desktop uses the same compact shelf and book proportions as mobile, centered and scaled to fit the available height.
+
+## About and writing
+
+`about.html` contains the placeholder introduction and bullet points, with a temporary portrait at `assets/images/portrait-placeholder.webp`. Replace that image with your photo when ready. The normal pages use their own base layout (`_layouts/content.html`) and stylesheet (`assets/css/pages.css`), with a back-to-bookshelf link and no navbar. They do not load the homepage styles or 3D runtime, so homepage work can proceed independently.
+
+`writing.html` lists published posts with full dates, such as “Oct 24, 2026”. It shows an empty state until a post is published. The RSS feed at `/feed.xml` updates from published posts automatically. Article styling lives in `_layouts/post.html`.
+
+The first post, “My first year in college,” is imported from Brady's Substack with its original May 7, 2026 publication date. The article layout shows the title, date, and a reading-time estimate at 200 words per minute. Original headings, links, emphasis, list and footnote are retained; Substack subscription widgets and comments are excluded. The old sample entries are archived under the ignored local `output/sample-posts-archive/` directory, so they no longer appear in the site, including draft previews.
+
+The article’s back-to-writing link hides while scrolling down, reappears at the end and while scrolling up, and stays visible when keyboard-focused. This behavior lives in the independent `assets/js/article-navigation.mjs` module; without JavaScript the regular top link still works. Reduced-motion preferences disable the small transition.
+
+To add a post, create `_posts/YYYY-MM-DD-title.md` (or `.html`) with `title`, `date` and `description` in its YAML front matter. Posts automatically use the article layout and `/writing/title/` URL.
 
 ## Editing the shelf
 

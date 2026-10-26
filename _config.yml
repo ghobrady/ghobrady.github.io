@@ -4,6 +4,13 @@ lang: en
 url: "https://ghobrady.github.io"
 baseurl: ""
 permalink: pretty
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      permalink: /writing/:title/
 
 exclude:
   - node_modules
@@ -18,6 +25,7 @@ exclude:
   - output
   - assets/previews/README.md
   - assets/materials/README.md
+  - assets/images/README.md
   - assets/models/README.md
   - assets/vendor/README.md
   - assets/vendor/package.json

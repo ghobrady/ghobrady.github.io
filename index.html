@@ -25,9 +25,11 @@ description: The personal bookshelf of Brady Gho — a quiet home for writing, p
                 </span>
               </div>
             {% else %}
-              <button
+              {% assign book_tag = 'button' %}
+              {% if book.url %}{% assign book_tag = 'a' %}{% endif %}
+              <{{ book_tag }}
                 class="book book--movable book--{{ book.id }}"
-                type="button"
+                {% if book.url %}href="{{ book.url | relative_url }}"{% else %}type="button" aria-haspopup="dialog"{% endif %}
                 style="{{ book_style | strip }}"
                 data-book="{{ book.id }}"
                 data-title="{{ book.title | escape }}"
@@ -35,7 +37,6 @@ description: The personal bookshelf of Brady Gho — a quiet home for writing, p
                 data-copy="{{ book.copy | escape }}"
                 data-accent="{{ book.cover }}"
                 aria-label="Open {{ book.title }}"
-                aria-haspopup="dialog"
               >
                 <span class="book-model" aria-hidden="true">
                   <span class="book-spine">
@@ -44,7 +45,7 @@ description: The personal bookshelf of Brady Gho — a quiet home for writing, p
                     <span class="book-rule book-rule--bottom"></span>
                   </span>
                 </span>
-              </button>
+              </{{ book_tag }}>
             {% endif %}
           {% endfor %}
         </div>
