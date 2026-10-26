@@ -1,0 +1,104 @@
+{
+  "books": [
+    {
+      "cover": "#172234",
+      "edge": "#0d1420",
+      "height": 406.5078125,
+      "id": "brady",
+      "texturePosition": 0.5,
+      "width": 105.390625,
+      "x": 618.0703125,
+      "y": 41.4140625
+    },
+    {
+      "cover": "#f0e8d7",
+      "edge": "#b8ad99",
+      "height": 346.28125,
+      "id": "about",
+      "texturePosition": 0.08,
+      "width": 87.3203125,
+      "x": 757.328125,
+      "y": 101.640625
+    },
+    {
+      "cover": "#a7b39b",
+      "edge": "#657160",
+      "height": 323.703125,
+      "id": "friends",
+      "texturePosition": 0.3,
+      "width": 87.3203125,
+      "x": 861.9609375,
+      "y": 124.21875
+    },
+    {
+      "cover": "#d28b79",
+      "edge": "#895346",
+      "height": 346.28125,
+      "id": "writing",
+      "texturePosition": 0.48,
+      "width": 87.3203125,
+      "x": 966.59375,
+      "y": 101.640625
+    },
+    {
+      "cover": "#8ba6b9",
+      "edge": "#4d6579",
+      "height": 316.171875,
+      "id": "projects",
+      "texturePosition": 0.64,
+      "width": 87.3203125,
+      "x": 635.3828125,
+      "y": 545.7734375
+    },
+    {
+      "cover": "#e6bd73",
+      "edge": "#9b6e20",
+      "height": 346.28125,
+      "id": "ringworld",
+      "texturePosition": 0.78,
+      "width": 87.3203125,
+      "x": 740.015625,
+      "y": 515.6640625
+    },
+    {
+      "cover": "#803d49",
+      "edge": "#4b1722",
+      "height": 316.171875,
+      "id": "clocktower",
+      "texturePosition": 0.9,
+      "width": 87.3203125,
+      "x": 844.6484375,
+      "y": 545.7734375
+    },
+    {
+      "cover": "#d5d7d4",
+      "edge": "#8f928f",
+      "height": 316.171875,
+      "id": "mediashelf",
+      "texturePosition": 0.4,
+      "width": 87.3203125,
+      "x": 949.28125,
+      "y": 545.7734375
+    }
+  ],
+  "height": 941,
+  "horizon": 666.22265625,
+  "shelves": [
+    {
+      "height": 22.578125,
+      "id": "top",
+      "width": 654.9290625,
+      "x": 508.5315625,
+      "y": 447.921875
+    },
+    {
+      "height": 22.578125,
+      "id": "bottom",
+      "width": 654.9290625,
+      "x": 508.5315625,
+      "y": 861.9453125
+    }
+  ],
+  "unit": 0.941,
+  "width": 1672
+}

@@ -1,0 +1,31 @@
+# Jekyll output and caches
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+/output/
+
+# Local Ruby dependencies and configuration
+.bundle/
+/vendor/bundle/
+/vendor/cache/
+.ruby-lsp/
+
+# Local JavaScript dependencies and package-manager logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment settings
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Operating-system and editor temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

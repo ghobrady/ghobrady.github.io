@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="128" viewBox="0 0 768 128">
+  <filter id="paint">
+    <feTurbulence type="fractalNoise" baseFrequency=".018 .25" numOctaves="3" seed="67" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="768" height="128" filter="url(#paint)"/>
+</svg>

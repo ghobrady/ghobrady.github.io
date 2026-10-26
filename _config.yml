@@ -1,0 +1,19 @@
+title: Brady Gho
+description: A quiet personal index of writing, projects, people, and curiosities.
+lang: en
+url: "https://ghobrady.github.io"
+baseurl: ""
+permalink: pretty
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - GEOMETRY.md
+  - tests
+  - tools
+  - output
+  - assets/materials/README.md
+  - assets/models/README.md
+  - assets/vendor/README.md
+  - assets/vendor/package.json

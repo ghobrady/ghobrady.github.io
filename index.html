@@ -1,0 +1,75 @@
+---
+layout: default
+title: Index
+description: The personal bookshelf of Brady Gho — a quiet home for writing, projects, and curiosities.
+---
+
+<main class="scene" aria-labelledby="page-title">
+  <h1 id="page-title" class="visually-hidden">Brady Gho</h1>
+
+  <div class="room" aria-label="Brady Gho's bookshelf">
+    {% for shelf in site.data.books.shelves %}
+      <section class="shelf shelf--{{ shelf.id }}" aria-label="{{ shelf.label }}">
+        <div class="book-row" data-shelf="{{ shelf.id }}">
+          {% for book in shelf.books %}
+            {% capture book_style %}--cover: {{ book.cover }}; --cover-edge: {{ book.edge }}; --cover-ink: {{ book.ink }}; --book-width: {{ book.width }}; --book-height: {{ book.height }};{% if book.title_size %} --title-size: {{ book.title_size }};{% endif %}{% if book.gap_before %} --gap-before: {{ book.gap_before }};{% endif %}{% if book.gap_after %} --gap-after: {{ book.gap_after }};{% endif %}{% if book.title_top %} --title-top: {{ book.title_top }};{% endif %}{% if book.dot %} --dot-color: {{ book.dot }};{% endif %}{% if book.texture_position %} --texture-position: {{ book.texture_position }};{% endif %}{% endcapture %}
+            {% if book.fixed %}
+              <div class="book book--fixed book--{{ book.class_name }}" style="{{ book_style | strip }}" aria-hidden="true">
+                <span class="book-model">
+                  <span class="book-spine">
+                    <span class="book-rule book-rule--top"></span>
+                    <span class="book-title">{{ book.title }}</span>
+                    <span class="book-rule book-rule--bottom"></span>
+                  </span>
+                </span>
+              </div>
+            {% else %}
+              <button
+                class="book book--movable book--{{ book.id }}"
+                type="button"
+                style="{{ book_style | strip }}"
+                data-book="{{ book.id }}"
+                data-title="{{ book.title | escape }}"
+                data-kicker="{{ book.kicker | escape }}"
+                data-copy="{{ book.copy | escape }}"
+                data-accent="{{ book.cover }}"
+                aria-label="Open {{ book.title }}"
+                aria-haspopup="dialog"
+              >
+                <span class="book-model" aria-hidden="true">
+                  <span class="book-spine">
+                    <span class="book-dot"></span>
+                    <span class="book-title">{{ book.title }}</span>
+                    <span class="book-rule book-rule--bottom"></span>
+                  </span>
+                </span>
+              </button>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="shelf-board" aria-hidden="true">
+          <div class="shelf-model">
+            <span class="shelf-top"></span>
+            <span class="shelf-bottom"></span>
+            <span class="shelf-end"></span>
+            <span class="shelf-front"></span>
+          </div>
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+
+  <p class="visually-hidden" aria-live="polite" id="shelf-status"></p>
+</main>
+
+<dialog class="bookplate" aria-labelledby="bookplate-title">
+  <div class="bookplate__paper">
+    <button class="bookplate__close" type="button" aria-label="Close book">close</button>
+    <div class="bookplate__mark" aria-hidden="true"></div>
+    <p class="bookplate__kicker"></p>
+    <h2 id="bookplate-title"></h2>
+    <p class="bookplate__copy"></p>
+    <p class="bookplate__folio" aria-hidden="true">BG · <span></span></p>
+  </div>
+</dialog>

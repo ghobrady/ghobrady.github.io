@@ -1,0 +1,104 @@
+shelves:
+  - id: top
+    label: Identity, about, friends, and writing
+    books:
+      - id: brady
+        title: Brady Gho
+        fixed: true
+        class_name: name
+        cover: "#172234"
+        edge: "#0d1420"
+        ink: "#f1eee4"
+        width: "7em"
+        height: "27em"
+        gap_after: "1.1em"
+      - id: about
+        title: About
+        kicker: A note from the desk
+        copy: A small introduction belongs here—just enough context before the rest of the shelf does the talking.
+        cover: "#f0e8d7"
+        edge: "#b8ad99"
+        ink: "#171918"
+        width: "5.8em"
+        height: "23em"
+        dot: "#bb745d"
+        texture_position: "8%"
+      - id: friends
+        title: Friends
+        kicker: People worth knowing
+        copy: A place for friends, collaborators, and the good work happening in their corners of the internet.
+        cover: "#a7b39b"
+        edge: "#657160"
+        ink: "#172017"
+        width: "5.8em"
+        height: "21.5em"
+        dot: "#354938"
+        texture_position: "30%"
+      - id: writing
+        title: Writing
+        kicker: Notes in the margin
+        copy: Essays, fragments, and observations—filed loosely, read slowly, and revised whenever they ask for it.
+        cover: "#d28b79"
+        edge: "#895346"
+        ink: "#171514"
+        width: "5.8em"
+        height: "23em"
+        title_top: "31%"
+        dot: "#f3d9a5"
+        texture_position: "48%"
+
+  - id: bottom
+    label: Projects and collections
+    books:
+      - id: projects
+        title: Projects
+        kicker: Things made and making
+        copy: An index of experiments, finished work, and the useful ideas that sit somewhere in between.
+        cover: "#8ba6b9"
+        edge: "#4d6579"
+        ink: "#14191d"
+        width: "5.8em"
+        height: "21em"
+        title_size: "1.5em"
+        title_top: "28%"
+        dot: "#f1dfb9"
+        texture_position: "64%"
+      - id: ringworld
+        title: Ringworld
+        kicker: Project notebook
+        copy: Notes, sketches, and artifacts from Ringworld are collected here as the project takes shape.
+        cover: "#e6bd73"
+        edge: "#9b6e20"
+        ink: "#1c160b"
+        width: "5.8em"
+        height: "23em"
+        title_size: "1.5em"
+        title_top: "24%"
+        dot: "#6b4819"
+        texture_position: "78%"
+      - id: clocktower
+        title: Clocktower
+        kicker: Project notebook
+        copy: A shelf of working material for Clocktower—part archive, part record of what comes next.
+        cover: "#803d49"
+        edge: "#4b1722"
+        ink: "#f3e9df"
+        width: "5.8em"
+        height: "21em"
+        title_size: "1.4em"
+        title_top: "21%"
+        dot: "#f0dbad"
+        texture_position: "90%"
+      - id: mediashelf
+        title: Mediashelf
+        kicker: Things watched, read, and heard
+        copy: A personal media index for returning to the things that were worth keeping close.
+        cover: "#d5d7d4"
+        edge: "#8f928f"
+        ink: "#1c1f1d"
+        width: "5.8em"
+        height: "21em"
+        title_size: "1.4em"
+        title_top: "25%"
+        dot: "#3e5047"
+        texture_position: "40%"
