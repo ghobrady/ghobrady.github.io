@@ -62,11 +62,11 @@ html { min-width: 320px; background: #faf8f3; }
 .writing-heading h1 { font-size: 56px; }
 .post-list { list-style: none; padding: 0; margin: 0; }
 .post-list li + li { border-top: 1px solid var(--rule); }
-.content-page .post-entry { display: grid; grid-template-columns: 160px minmax(0, 1fr); column-gap: 28px; padding-block: 28px 30px; text-decoration: none; }
+.content-page .post-entry { display: grid; grid-template-columns: 160px minmax(0, 1fr); grid-template-areas: "date title" "date description"; column-gap: 28px; row-gap: 8px; padding-block: 28px 30px; text-decoration: none; }
 .post-list li:first-child .post-entry { padding-top: 0; }
-.post-entry time { padding-top: 6px; font-size: 17px; line-height: 1.5; letter-spacing: .02em; white-space: nowrap; }
-.post-entry h2 { margin: 0 0 8px; color: var(--page-ink); font-size: 29px; line-height: 1.2; font-weight: 400; letter-spacing: -.015em; overflow-wrap: anywhere; }
-.post-entry p { margin: 0; color: var(--body-ink); font-size: 20px; line-height: 1.4; }
+.post-entry time { grid-area: date; align-self: start; padding-top: 6px; font-size: 17px; line-height: 1.5; letter-spacing: .02em; white-space: nowrap; }
+.post-entry h2 { grid-area: title; margin: 0; color: var(--page-ink); font-size: 29px; line-height: 1.2; font-weight: 400; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.post-entry p { grid-area: description; margin: 0; color: var(--body-ink); font-size: 20px; line-height: 1.4; }
 .post-entry:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
 .writing-empty { padding-block: 24px 48px; border-top: 1px solid var(--rule); }
 .writing-empty p { margin: 0; color: var(--body-ink); font-size: 22px; line-height: 1.6; }
@@ -109,7 +109,7 @@ html { min-width: 320px; background: #faf8f3; }
   .about-layout { gap: 32px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
   .prose { font-size: 20px; }
   .article-copy { font-size: 19px; }
-  .content-page .post-entry { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; }
+  .content-page .post-entry { grid-template-columns: 120px minmax(0, 1fr); column-gap: 16px; }
   .post-entry time { font-size: 15px; }
   .post-entry h2 { font-size: 25px; }
   .post-entry p { font-size: 18px; }
@@ -121,9 +121,9 @@ html { min-width: 320px; background: #faf8f3; }
   .about-layout { display: flex; flex-direction: column; gap: 32px; }
   .about-portrait { max-width: 340px; }
   .writing-heading { margin-bottom: 40px; }
-  .content-page .post-entry { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
-  .post-entry time { grid-column: 1; padding: 0; }
-  .post-entry__text { grid-column: 1; }
+  .content-page .post-entry { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "date" "description"; row-gap: 8px; }
+  .post-entry time { padding: 0; }
+  .post-entry h2 { font-size: 28px; }
   .writing-empty p { font-size: 20px; }
   .writing-empty p:first-child { font-size: 27px; }
   .article-heading { margin-top: 36px; }

@@ -12,11 +12,9 @@ permalink: /writing/
     {% for post in site.posts %}
     <li>
       <a class="post-entry" href="{{ post.url | relative_url }}">
+        <h2>{{ post.title | escape }}</h2>
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
-        <div class="post-entry__text">
-          <h2>{{ post.title | escape }}</h2>
-          <p>{{ post.description | default: post.excerpt | strip_html | strip | escape }}</p>
-        </div>
+        <p>{{ post.description | default: post.excerpt | strip_html | strip | escape }}</p>
       </a>
     </li>
     {% endfor %}
