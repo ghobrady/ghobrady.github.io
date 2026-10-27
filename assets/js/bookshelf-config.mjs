@@ -6,6 +6,6 @@ export const MODEL = Object.freeze({
   coverThickness: 2.2,
   cornerRadius: 4,
   pageInset: 3,
-  pageSideGap: 1.2,
+  pageSideGap: .6,
   bindingGap: .75,
 });

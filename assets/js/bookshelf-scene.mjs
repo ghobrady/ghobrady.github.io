@@ -126,26 +126,7 @@ export async function createBookshelfPresentation(sceneElement) {
   }
 
   function pageMaterial() {
-    const paper = document.createElement('canvas');
-    paper.width = 512;
-    paper.height = 256;
-    const ctx = paper.getContext('2d');
-    ctx.fillStyle = '#fbf8ef';
-    ctx.fillRect(0,0,paper.width,paper.height);
-    // Fine parallel cut edges run through the depth of the page stack.
-    let seed = 37;
-    for (let x=1; x<paper.width; x+=2) {
-      seed = (seed*16807)%2147483647;
-      ctx.strokeStyle = `rgba(108,94,68,${.025+(seed%60)/1000})`;
-      ctx.lineWidth = .65;
-      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,paper.height); ctx.stroke();
-    }
-    const map = new THREE.CanvasTexture(paper);
-    map.colorSpace = THREE.SRGBColorSpace;
-    map.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(),4);
-    const material = new THREE.MeshStandardMaterial({ color: '#fffdf7', map, roughness: 1 });
-    material.userData.ownedMap = true;
-    return material;
+    return new THREE.MeshStandardMaterial({ color: '#faf6ec', roughness: 1 });
   }
 
   function draw() {
@@ -189,13 +170,19 @@ export async function createBookshelfPresentation(sceneElement) {
       world = createBookshelfScene(layout, { frontMaterials, paperMaterial: pageMaterial(), shadowOnlyWall: true });
     }
     preparedWorld = undefined;
+    const customizedMaterials = new Set();
     world.scene.traverse(object => {
       if (!object.isMesh) return;
       for (const material of (Array.isArray(object.material) ? object.material : [object.material])) {
+        if (customizedMaterials.has(material)) continue;
+        customizedMaterials.add(material);
+        const customize = material.onBeforeCompile;
+        const programKey = material.customProgramCacheKey();
         material.onBeforeCompile = shader => {
+          customize.call(material, shader);
           shader.fragmentShader = shader.fragmentShader.replace('#include <shadowmap_pars_fragment>',shadowChunk);
         };
-        material.customProgramCacheKey = () => 'bookshelf-pcf-grid-2';
+        material.customProgramCacheKey = () => `bookshelf-pcf-grid-2:${programKey}`;
       }
     });
     performance.mark('bookshelf:geometry');

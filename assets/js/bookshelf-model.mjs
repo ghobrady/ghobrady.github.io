@@ -1,6 +1,7 @@
 import * as THREE from '../vendor/three.module.js';
 import { RoundedBoxGeometry } from '../vendor/RoundedBoxGeometry.js';
 import { hingeAngleForShelf } from './book-motion.mjs?v=pages-2';
+import { configurePageMaterial } from './page-lighting.mjs';
 
 import { MODEL } from './bookshelf-config.mjs';
 export { MODEL };
@@ -66,7 +67,7 @@ export function createBookMesh(book, unit = 1, frontMaterial, paperMaterial) {
   const pageFront = bindingDepth + MODEL.bindingGap*unit;
   const paper = new THREE.Mesh(
     new RoundedBoxGeometry(w-thickness*2-MODEL.pageSideGap*2*unit, h-inset*2, depth-pageFront-inset, 3, .65*unit),
-    paperMaterial || new THREE.MeshStandardMaterial({ color: '#f5efe2', roughness: 1 }),
+    configurePageMaterial(paperMaterial ? paperMaterial.clone() : new THREE.MeshStandardMaterial({ color: '#f5efe2', roughness: 1 }), w, h, unit, book.id),
   );
   paper.name = 'recessed-page-block';
   paper.position.set(w/2, h/2, -(depth+pageFront-inset)/2);

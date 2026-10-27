@@ -34,6 +34,10 @@ Book labels, colors, dimensions, and panel copy all live in `_data/books.yml`. T
 
 The live geometry, lights and camera are generated in `assets/js/bookshelf-model.mjs`; `assets/js/bookshelf-scene.mjs` renders the model and keeps live HTML labels aligned. A generated GLB export is available at `assets/models/bookshelf.glb`.
 
+`assets/js/page-lighting.mjs` adds local cover/binding shadows on the recessed paper. Light rays are transformed into the book's rotating frame and tested against three cover bounds, with deterministic area-light samples for soft edges. A distance-based view factor shades both ambient and broad ceiling bounce in the narrow recesses, with extra contact contrast for the small display size. Sparse antialiased page seams have irregular spacing, widths and light/dark values. They depend only on the sheet axis, so no depth-varying pattern forms diagonal bands. The local bounds approximate the rounded covers; the full scene still uses its mesh shadow map for cast shadows.
+
+Each book ID seeds an independent seam pattern with successive random gaps, occasional close pairs and longer blank stretches. The cuts stay stable across redraws and resizing. Both shelf hinges rotate only around the horizontal bottom-front edge; slight outward movement on screen comes from the shared perspective camera. Tests check the rightmost books against mirrored positions and confirm that their physical sideways travel is zero.
+
 Regenerate the model with `node tools/generate-bookshelf-model.mjs`. Run the geometry and motion checks with `node --test tests/*.test.mjs`. Three.js is pinned and vendored locally; Node build tools are pinned separately in `package-lock.json`.
 
 ## Publishing

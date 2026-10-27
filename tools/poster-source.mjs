@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 // when these inputs change instead of silently publishing a mismatched handoff.
 export async function posterSourceFingerprint() {
   const hash = createHash('sha256');
-  for (const path of ['assets/js/bookshelf-model.mjs','assets/js/bookshelf-config.mjs','assets/materials/binding-grain.webp']) hash.update(await readFile(path));
+  for (const path of ['assets/js/bookshelf-model.mjs','assets/js/bookshelf-config.mjs','assets/js/page-lighting.mjs','assets/materials/binding-grain.webp']) hash.update(await readFile(path));
   const books = await readFile('_data/books.yml','utf8');
   hash.update(books.split('\n').filter(line => /^\s+(?:-\s+)?(?:id|cover|edge|width|height|gap_before|gap_after|texture_position):/.test(line)).join('\n'));
   const css = await readFile('assets/css/site.css','utf8');

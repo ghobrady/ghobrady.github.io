@@ -74,6 +74,34 @@ test('real mesh pivots stay planted while the rear bottom edge lifts',()=>{
   }
 });
 
+test('right-edge books only pitch forward; their apparent sideways lean is symmetric camera perspective', () => {
+  for (const id of ['writing', 'mediashelf']) {
+    const data = layout.books.find(book => book.id === id);
+    const mirrored = { ...data, id: `${id}-mirror`, x: layout.width - data.x - data.width };
+    const { scene, books, camera } = createBookshelfScene({ ...layout, books: [data, mirrored] });
+    const right = books.get(id);
+    const left = books.get(mirrored.id);
+    const point = (book, y) => new THREE.Vector3(data.width / 2, y, 0).applyMatrix4(book.matrixWorld);
+    const projectX = world => (world.clone().project(camera).x + 1) * layout.width / 2;
+    const restingTop = point(right, data.height);
+    const hinge = point(right, 0);
+    for (const angle of [0, 3, 6, 9, 12]) {
+      right.rotation.x = left.rotation.x = THREE.MathUtils.degToRad(angle);
+      scene.updateMatrixWorld(true);
+      const top = point(right, data.height);
+      near(top.x, restingTop.x); // No lateral motion in the physical model.
+      near(point(right, 0).distanceTo(hinge), 0);
+      near(right.rotation.y, 0);
+      near(right.rotation.z, 0);
+      const distance = MODEL.cameraDistance * layout.unit;
+      near(projectX(top), layout.width / 2 + top.x * distance / (distance - top.z));
+      const rightLean = projectX(top) - projectX(point(right, 0));
+      const leftLean = projectX(point(left, data.height)) - projectX(point(left, 0));
+      near(rightLean, -leftLean);
+    }
+  }
+});
+
 test('exported GLB contains the same shelf, book, wall, and camera nodes',async()=>{
   const bytes=await readFile(new URL('../assets/models/bookshelf.glb',import.meta.url));
   assert.equal(bytes.readUInt32LE(0),0x46546c67);
