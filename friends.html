@@ -8,6 +8,7 @@ permalink: /friends/
   <h1>my friends</h1>
 </header>
 <div class="prose">
+  <p>check out (some of) my friends!</p>
   <ul class="friends-list">
     {% for friend in site.data.friends %}
     <li><a href="{{ friend.url | escape }}">{{ friend.name | escape }}</a></li>
