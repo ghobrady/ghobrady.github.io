@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#e6e8e8">
     <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+    {% include fonts.html %}
     {% assign desktop_poster = site.data.bookshelf_poster.desktop %}
     {% assign mobile_poster = site.data.bookshelf_poster.mobile %}
     {% assign narrow_poster = site.data.bookshelf_poster.narrow %}
@@ -19,7 +20,7 @@
       @media (max-width: 399px) { :root { --poster-center-width: {{ narrow_poster.centerEm }}em; --poster-native-width: {{ narrow_poster.widthEm }}em; --poster-edge-size: {{ narrow_poster.edgeSize }}%; --poster-edge-position: {{ narrow_poster.edgePosition }}%; --poster-gutter-size: {{ narrow_poster.gutterSize }}%; } }
     </style>
     <noscript><style>.scene--poster .bookshelf-poster,.scene--poster .book-model { visibility: visible !important; }</style></noscript>
-    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=links-1">
+    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=sofia-1">
     <script src="{{ site.data.runtime.script | default: '/assets/js/site.js' | relative_url }}?v={{ site.data.runtime.version | default: 'source' }}" type="module" onerror="document.querySelector('.scene').dataset.posterReady='true'"></script>
   </head>
   <body>
