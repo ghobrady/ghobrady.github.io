@@ -10,7 +10,7 @@ html { min-width: 320px; background: #faf8f3; }
   background: #faf8f3;
   margin: 0;
   min-height: 100svh;
-  font-family: var(--site-font-family);
+  font-family: Baskerville, "Times New Roman", "Iowan Old Style", Georgia, serif;
   isolation: isolate;
   position: relative;
 }
